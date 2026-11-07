@@ -53,8 +53,8 @@ Furniture shopping and rearranging rooms involve a lot of guessing. Will that 7-
 ## 🚀 Running Locally
 
 ```bash
-git clone https://github.com/sophiebushman1/amazing-project.git
-cd amazing-project
+git clone https://github.com/sophiebushman1/Amazing-Project-personal-.git
+cd Amazing-Project-personal-
 # Open index.html in your browser, or run a simple local server:
 python3 -m http.server 8000
 # then visit http://localhost:8000
