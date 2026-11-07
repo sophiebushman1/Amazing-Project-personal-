@@ -120,6 +120,24 @@ body {
   text-transform: none;
 }
 
+.room-controls {
+  position: relative;
+}
+
+.form-error {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #b3261e;
+  white-space: nowrap;
+}
+
+.input-unit.invalid {
+  border-color: #b3261e;
+}
+
 /* ----- Buttons ----- */
 .btn {
   padding: 8px 14px;
