@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room Layout Designer</title>
+  <link rel="stylesheet" href="src/styles.css" />
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <h1>Room Layout Designer</h1>
+    </div>
+
+    <!-- Room size controls (wired up with JavaScript in a later feature) -->
+    <form class="room-controls" id="room-form">
+      <label>
+        Room width
+        <span class="input-unit">
+          <input type="number" id="room-width" min="4" max="60" value="12" />
+          <span>ft</span>
+        </span>
+      </label>
+      <label>
+        Room length
+        <span class="input-unit">
+          <input type="number" id="room-length" min="4" max="60" value="14" />
+          <span>ft</span>
+        </span>
+      </label>
+      <button type="submit" class="btn btn-primary">Update room</button>
+    </form>
+  </header>
+
+  <main class="app-layout">
+    <!-- ===== Furniture palette ===== -->
+    <aside class="panel" id="furniture-panel">
+      <h2>Furniture</h2>
+      <p class="panel-hint">Pick a piece and set its size in feet.</p>
+
+      <ul class="furniture-list">
+        <li class="furniture-item">
+          <div class="furniture-swatch swatch-couch"></div>
+          <div class="furniture-info">
+            <span class="furniture-name">Couch</span>
+            <span class="furniture-size">7 ft × 3 ft</span>
+          </div>
+        </li>
+        <li class="furniture-item">
+          <div class="furniture-swatch swatch-bed"></div>
+          <div class="furniture-info">
+            <span class="furniture-name">Bed</span>
+            <span class="furniture-size">5 ft × 6.5 ft</span>
+          </div>
+        </li>
+        <li class="furniture-item">
+          <div class="furniture-swatch swatch-table"></div>
+          <div class="furniture-info">
+            <span class="furniture-name">Table</span>
+            <span class="furniture-size">5 ft × 3 ft</span>
+          </div>
+        </li>
+        <li class="furniture-item">
+          <div class="furniture-swatch swatch-chair"></div>
+          <div class="furniture-info">
+            <span class="furniture-name">Chair</span>
+            <span class="furniture-size">2 ft × 2 ft</span>
+          </div>
+        </li>
+        <li class="furniture-item">
+          <div class="furniture-swatch swatch-dresser"></div>
+          <div class="furniture-info">
+            <span class="furniture-name">Dresser</span>
+            <span class="furniture-size">5 ft × 1.5 ft</span>
+          </div>
+        </li>
+        <li class="furniture-item">
+          <div class="furniture-swatch swatch-rug"></div>
+          <div class="furniture-info">
+            <span class="furniture-name">Rug</span>
+            <span class="furniture-size">8 ft × 5 ft</span>
+          </div>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- ===== Room workspace ===== -->
+    <section class="workspace">
+      <div class="workspace-bar">
+        <span id="room-label">Room: 12 ft × 14 ft</span>
+        <span class="scale-note">1 square = 1 ft</span>
+      </div>
+
+      <div class="room-stage">
+        <!-- 12 ft × 14 ft at 40px per foot = 480px × 560px -->
+        <div class="room" id="room" style="width: 480px; height: 560px;"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="app-footer">
+    Built by Sophia Taylor ·
+    <a href="https://www.linkedin.com/in/sophia-taylor-a0823736b/" target="_blank" rel="noopener">LinkedIn</a> ·
+    <a href="https://github.com/sophiebushman1" target="_blank" rel="noopener">GitHub</a>
+  </footer>
+
+  <script src="src/app.js"></script>
+</body>
+</html>
