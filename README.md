@@ -45,7 +45,8 @@ Furniture shopping and rearranging rooms involve a lot of guessing. Will that 7-
 
 ## 🛠️ Tech Stack
 
-- HTML, CSS, and vanilla JavaScript (no build step required)
+- HTML, CSS, and vanilla JavaScript
+- [Vite](https://vitejs.dev/) for the local dev server
 - *(May add a framework later and log the change here)*
 
 ---
@@ -55,9 +56,9 @@ Furniture shopping and rearranging rooms involve a lot of guessing. Will that 7-
 ```bash
 git clone https://github.com/sophiebushman1/Amazing-Project-personal-.git
 cd Amazing-Project-personal-
-# Open index.html in your browser, or run a simple local server:
-python3 -m http.server 8000
-# then visit http://localhost:8000
+npm install
+npm run dev
+# opens http://localhost:5173 and reloads when you save a file
 ```
 
 ---

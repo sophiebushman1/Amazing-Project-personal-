@@ -216,13 +216,7 @@ body {
   flex-shrink: 0;
 }
 
-/* One color per furniture type */
-.swatch-couch   { background: #8fa3b8; }
-.swatch-bed     { background: #c9b6d9; }
-.swatch-table   { background: #b8946e; }
-.swatch-chair   { background: #d9a36b; }
-.swatch-dresser { background: #9c8574; }
-.swatch-rug     { background: #d9c9a8; }
+/* Swatch color comes from the catalog (set inline by app.js) */
 
 .furniture-info {
   display: flex;

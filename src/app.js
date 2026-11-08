@@ -18,6 +18,7 @@ const lengthInput = document.getElementById("room-length");
 const roomError = document.getElementById("room-error");
 const roomEl = document.getElementById("room");
 const roomLabel = document.getElementById("room-label");
+const furnitureList = document.getElementById("furniture-list");
 
 // Converts feet to on-screen pixels.
 function feetToPixels(feet) {
@@ -64,7 +65,38 @@ function handleRoomSubmit(event) {
   renderRoom();
 }
 
+// Builds the furniture panel from FURNITURE_CATALOG (see furniture.js).
+function renderFurnitureList() {
+  furnitureList.innerHTML = "";
+
+  FURNITURE_CATALOG.forEach(function (item) {
+    const li = document.createElement("li");
+    li.className = "furniture-item";
+    li.dataset.type = item.type;
+
+    const swatch = document.createElement("div");
+    swatch.className = "furniture-swatch";
+    swatch.style.background = item.color;
+
+    const info = document.createElement("div");
+    info.className = "furniture-info";
+
+    const name = document.createElement("span");
+    name.className = "furniture-name";
+    name.textContent = item.name;
+
+    const size = document.createElement("span");
+    size.className = "furniture-size";
+    size.textContent = formatFeet(item.width) + " ft × " + formatFeet(item.length) + " ft";
+
+    info.append(name, size);
+    li.append(swatch, info);
+    furnitureList.appendChild(li);
+  });
+}
+
 roomForm.addEventListener("submit", handleRoomSubmit);
 
-// Draw the starting room.
+// Draw the starting page.
 renderRoom();
+renderFurnitureList();

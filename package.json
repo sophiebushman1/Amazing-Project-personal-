@@ -1,0 +1,15 @@
+{
+  "name": "amazing-project",
+  "version": "0.1.0",
+  "private": true,
+  "description": "2D room layout and interior design simulator",
+  "author": "Sophia Taylor",
+  "scripts": {
+    "dev": "vite --open",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}
