@@ -174,6 +174,8 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
+  max-height: calc(100vh - 140px); /* scroll the list, not the page */
+  overflow-y: auto;
 }
 
 .panel h2 {
@@ -195,12 +197,11 @@ body {
 
 .furniture-item {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
   padding: 10px;
   border: 1px solid var(--border);
   border-radius: 6px;
-  cursor: grab;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
@@ -209,11 +210,25 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
-.furniture-swatch {
-  width: 32px;
-  height: 24px;
-  border-radius: 4px;
+.furniture-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Fixed box so names line up no matter the swatch shape */
+.swatch-box {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+}
+
+.furniture-swatch {
+  border-radius: 3px;
+  transition: width 0.15s, height 0.15s;
 }
 
 /* Swatch color comes from the catalog (set inline by app.js) */
@@ -231,6 +246,67 @@ body {
 .furniture-size {
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+/* ----- Size dropdown ----- */
+.size-select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.size-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.custom-size {
+  display: flex;
+  gap: 8px;
+}
+
+.custom-size[hidden] {
+  display: none;
+}
+
+.custom-field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.custom-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 5px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.custom-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.custom-field input.invalid {
+  border-color: #b3261e;
+}
+
+.custom-field span {
+  font-weight: 400;
 }
 
 /* ----- Workspace ----- */
