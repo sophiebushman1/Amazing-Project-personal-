@@ -26,10 +26,10 @@ Furniture shopping and rearranging rooms involve a lot of guessing. Will that 7-
 ## ✨ Features
 
 ### Planned
-- [ ] Create a room with a custom width and length (in feet)
+- [x] Create a room with a custom width and length (in feet)
 - [ ] Save multiple room layouts
-- [ ] Furniture palette with categories (couch, bed, table, chair, rug, dresser, etc.)
-- [ ] Furniture dropdowns to set **width and length in feet** (e.g., Couch → 7 ft × 3 ft)
+- [x] Furniture palette with categories (couch, bed, table, chair, rug, dresser, etc.)
+- [x] Furniture dropdowns to set **width and length in feet** (e.g., Couch → 7 ft × 3 ft)
 - [ ] Drag-and-drop furniture into the room
 - [ ] Move and rotate furniture inside the room
 - [ ] Everything drawn to scale with a grid (1 square = 1 ft)
@@ -67,7 +67,7 @@ npm run dev
 
 Every feature commit includes the time spent on it. See **[TIME_LOG.md](./TIME_LOG.md)** for the running total.
 
-**Total so far:** 0.5 hours (goal: 20+ hours)
+**Total so far:** 5 hours (goal: 20+ hours)
 
 ---
 
