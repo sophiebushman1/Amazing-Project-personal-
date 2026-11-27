@@ -2,6 +2,7 @@
 // Every size is in FEET. "width" runs left-to-right, "length" runs top-to-bottom
 // when the piece is first placed in the room. Heights are ignored (this is 2D).
 // The first size in each "sizes" list is the default.
+// layer: "floor" pieces (like rugs) are drawn underneath everything else.
 
 const FURNITURE_CATALOG = [
   {
@@ -87,7 +88,7 @@ const FURNITURE_CATALOG = [
     ],
   },
   {
-    type: "rug", name: "Rug", color: "#d9c9a8",
+    type: "rug", name: "Rug", color: "#d9c9a8", layer: "floor",
     sizes: [
       { label: "8 × 5",  width: 8,  length: 5 },
       { label: "6 × 4",  width: 6,  length: 4 },

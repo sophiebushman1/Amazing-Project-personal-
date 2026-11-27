@@ -16,11 +16,18 @@ const room = {
 
 // The size currently chosen for each furniture type, e.g.
 // selectedSizes.couch = { width: 7, length: 3 }.
-// Starts at each type's first preset. Used when placing furniture (next feature).
+// Starts at each type's first preset. Used when a piece is added to the room.
 const selectedSizes = {};
 FURNITURE_CATALOG.forEach(function (item) {
   selectedSizes[item.type] = { width: item.sizes[0].width, length: item.sizes[0].length };
 });
+
+// Every piece of furniture that has been added to the room.
+// x and y are the piece's top-left corner, in feet from the room's top-left corner.
+const placedPieces = [];
+let nextPieceId = 1;
+
+const SNAP_FEET = 0.5; // new pieces line up on a half-foot grid
 
 // ----- DOM elements -----
 const roomForm = document.getElementById("room-form");
@@ -30,6 +37,8 @@ const roomError = document.getElementById("room-error");
 const roomEl = document.getElementById("room");
 const roomLabel = document.getElementById("room-label");
 const furnitureList = document.getElementById("furniture-list");
+const pieceCount = document.getElementById("piece-count");
+const clearRoomButton = document.getElementById("clear-room");
 
 // Converts feet to on-screen pixels.
 function feetToPixels(feet) {
@@ -51,6 +60,113 @@ function renderRoom() {
   roomEl.style.width = feetToPixels(room.widthFt) + "px";
   roomEl.style.height = feetToPixels(room.lengthFt) + "px";
   roomLabel.textContent = "Room: " + formatSize(room.widthFt, room.lengthFt);
+}
+
+// Keeps a number between a min and a max.
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+// Rounds feet to the nearest snap step (0.5 ft).
+function snap(feet) {
+  return Math.round(feet / SNAP_FEET) * SNAP_FEET;
+}
+
+// Moves a piece back inside the walls if it's poking out.
+// (If a piece is bigger than the room, it's pinned to the top-left corner.)
+function keepInsideRoom(piece) {
+  piece.x = clamp(piece.x, 0, Math.max(0, room.widthFt - piece.width));
+  piece.y = clamp(piece.y, 0, Math.max(0, room.lengthFt - piece.length));
+}
+
+// True if another piece already starts at exactly this spot.
+function spotTaken(x, y) {
+  return placedPieces.some(function (piece) {
+    return piece.x === x && piece.y === y;
+  });
+}
+
+// Adds a new piece of the given type to the middle of the room,
+// using the size currently picked in that type's dropdown.
+function addPiece(type) {
+  const item = FURNITURE_CATALOG.find(function (entry) {
+    return entry.type === type;
+  });
+  const size = selectedSizes[type];
+
+  const piece = {
+    id: nextPieceId++,
+    type: item.type,
+    name: item.name,
+    color: item.color,
+    layer: item.layer || "furniture",
+    width: size.width,
+    length: size.length,
+    x: snap((room.widthFt - size.width) / 2),
+    y: snap((room.lengthFt - size.length) / 2),
+  };
+  keepInsideRoom(piece);
+
+  // Nudge it down-right so pieces added back-to-back don't hide each other.
+  let tries = 0;
+  while (spotTaken(piece.x, piece.y) && tries < 20) {
+    piece.x += SNAP_FEET;
+    piece.y += SNAP_FEET;
+    keepInsideRoom(piece);
+    tries++;
+  }
+
+  placedPieces.push(piece);
+  renderPieces();
+}
+
+// Draws every placed piece inside the room.
+function renderPieces() {
+  roomEl.querySelectorAll(".piece").forEach(function (el) {
+    el.remove();
+  });
+
+  placedPieces.forEach(function (piece) {
+    const el = document.createElement("div");
+    el.className = "piece";
+    if (piece.layer === "floor") {
+      el.classList.add("piece-floor");
+    }
+    el.dataset.id = piece.id;
+    el.style.left = feetToPixels(piece.x) + "px";
+    el.style.top = feetToPixels(piece.y) + "px";
+    el.style.width = feetToPixels(piece.width) + "px";
+    el.style.height = feetToPixels(piece.length) + "px";
+    el.style.background = piece.color;
+    el.title = piece.name + " — " + formatSize(piece.width, piece.length);
+
+    // Small pieces only have room for the name.
+    const smallSide = Math.min(feetToPixels(piece.width), feetToPixels(piece.length));
+    if (smallSide < 50) {
+      el.classList.add("piece-compact");
+    }
+
+    const name = document.createElement("span");
+    name.className = "piece-name";
+    name.textContent = piece.name;
+
+    const size = document.createElement("span");
+    size.className = "piece-size";
+    size.textContent = formatFeet(piece.width) + " × " + formatFeet(piece.length);
+
+    el.append(name, size);
+    roomEl.appendChild(el);
+  });
+
+  const count = placedPieces.length;
+  pieceCount.textContent = count + (count === 1 ? " piece" : " pieces");
+  clearRoomButton.disabled = count === 0;
+}
+
+// Removes every piece from the room.
+function clearRoom() {
+  placedPieces.length = 0;
+  renderPieces();
 }
 
 // Checks one input. Returns the number in feet, or null if it's not valid.
@@ -77,7 +193,9 @@ function handleRoomSubmit(event) {
   roomError.textContent = "";
   room.widthFt = width;
   room.lengthFt = length;
+  placedPieces.forEach(keepInsideRoom);
   renderRoom();
+  renderPieces();
 }
 
 // Sizes the little color swatch so its shape matches the piece's proportions.
@@ -149,7 +267,16 @@ function buildFurnitureRow(item) {
   size.className = "furniture-size";
   info.append(name, size);
 
-  header.append(swatchBox, info);
+  const addButton = document.createElement("button");
+  addButton.type = "button";
+  addButton.className = "btn btn-add";
+  addButton.textContent = "+ Add";
+  addButton.setAttribute("aria-label", "Add " + item.name + " to the room");
+  addButton.addEventListener("click", function () {
+    addPiece(item.type);
+  });
+
+  header.append(swatchBox, info, addButton);
 
   // Size dropdown: every preset, then "Custom…"
   const select = document.createElement("select");
@@ -212,7 +339,9 @@ function renderFurnitureList() {
 }
 
 roomForm.addEventListener("submit", handleRoomSubmit);
+clearRoomButton.addEventListener("click", clearRoom);
 
 // Draw the starting page.
 renderRoom();
 renderFurnitureList();
+renderPieces();

@@ -39,7 +39,7 @@
     <!-- ===== Furniture palette ===== -->
     <aside class="panel" id="furniture-panel">
       <h2>Furniture</h2>
-      <p class="panel-hint">Pick a piece and set its size in feet.</p>
+      <p class="panel-hint">Pick a size in feet, then click Add to put it in the room.</p>
 
       <!-- Filled in by app.js from the catalog in furniture.js -->
       <ul class="furniture-list" id="furniture-list"></ul>
@@ -48,8 +48,14 @@
     <!-- ===== Room workspace ===== -->
     <section class="workspace">
       <div class="workspace-bar">
-        <span id="room-label">Room: 12 ft × 14 ft</span>
-        <span class="scale-note">1 square = 1 ft</span>
+        <div class="bar-group">
+          <span id="room-label">Room: 12 ft × 14 ft</span>
+          <span class="piece-count" id="piece-count">0 pieces</span>
+        </div>
+        <div class="bar-group">
+          <span class="scale-note">1 square = 1 ft</span>
+          <button type="button" class="btn btn-ghost" id="clear-room" disabled>Clear room</button>
+        </div>
       </div>
 
       <div class="room-stage">

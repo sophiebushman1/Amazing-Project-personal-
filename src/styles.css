@@ -158,6 +158,38 @@ body {
   background: var(--accent-hover);
 }
 
+.btn-add {
+  margin-left: auto;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.btn-add:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.btn-ghost {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
 /* ----- Main layout ----- */
 .app-layout {
   flex: 1;
@@ -323,10 +355,22 @@ body {
 .workspace-bar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 10px 16px;
   border-bottom: 1px solid var(--border);
   font-size: 0.9rem;
   font-weight: 600;
+}
+
+.bar-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.piece-count {
+  font-weight: 400;
+  color: var(--text-muted);
 }
 
 .scale-note {
@@ -353,6 +397,54 @@ body {
   background-size: var(--ft) var(--ft);
   outline: 6px solid var(--wall);   /* walls */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ----- Furniture placed in the room ----- */
+.piece {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  text-align: center;
+  line-height: 1.1;
+  color: #2b2b2b;
+}
+
+/* Rugs and other floor items go under the furniture */
+.piece-floor {
+  z-index: 0;
+  opacity: 0.8;
+  box-shadow: none;
+}
+
+.piece-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.piece-size {
+  font-size: 0.65rem;
+  opacity: 0.75;
+}
+
+.piece-compact .piece-name {
+  font-size: 0.6rem;
+}
+
+.piece-compact .piece-size {
+  display: none;
 }
 
 /* ----- Footer ----- */
